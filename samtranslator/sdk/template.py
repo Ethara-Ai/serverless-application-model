@@ -47,12 +47,7 @@ class SamTemplate:
         :param string logical_id: Logical Id to set to
         :param SamResource or dict resource: The actual resource data
         """
-
-        resource_dict = resource
-        if isinstance(resource, SamResource):
-            resource_dict = resource.to_dict()
-
-        self.resources[logical_id] = resource_dict
+        pass
 
     def get_globals(self) -> dict[str, Any]:
         """
@@ -60,7 +55,7 @@ class SamTemplate:
 
         :return dict: Global section of the template
         """
-        return self.template_dict.get("Globals") or {}
+        pass
 
     def get(self, logical_id: str) -> SamResource | None:
         """
@@ -80,9 +75,7 @@ class SamTemplate:
 
         :param string logicalId: Resource to delete
         """
-
-        if logicalId in self.resources:
-            del self.resources[logicalId]
+        pass
 
     def to_dict(self) -> dict[str, Any]:
         """

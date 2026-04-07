@@ -36,11 +36,11 @@ class _ResourcePropertyValueValidator(Generic[T]):
 
     @property
     def resource_logical_id(self) -> str | None:
-        return None if self.is_sam_event else self.resource_id
+        pass
 
     @property
     def event_id(self) -> str | None:
-        return self.resource_id if self.is_sam_event else None
+        pass
 
     def to_be_a(self, expected_type: ExpectedType, message: str | None = "") -> T:
         """
@@ -119,7 +119,7 @@ class _ResourcePropertyValueValidator(Generic[T]):
         Return the value with type hint "int".
         Raise InvalidResourceException/InvalidEventException if the value is not.
         """
-        return cast(int, self.to_be_a(ExpectedType.INTEGER, message))
+        pass
 
     def to_be_a_bool(self, message: str | None = "") -> bool:
         """

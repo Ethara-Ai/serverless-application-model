@@ -12,4 +12,4 @@ class InvalidPluginException(Exception):
 
     @property
     def message(self) -> str:
-        return f"The {self._plugin_name} plugin is invalid. {self._message}"
+        pass

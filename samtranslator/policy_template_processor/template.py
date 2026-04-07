@@ -118,7 +118,7 @@ class Template:
         :param dict parameter_values:
         :return: True, if it is valid. False otherwise
         """
-        return parameter_values is not None and isinstance(parameter_values, dict)
+        pass
 
     @staticmethod
     def from_dict(template_name, template_values_dict):  # type: ignore[no-untyped-def]

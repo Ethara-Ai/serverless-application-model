@@ -64,12 +64,7 @@ def passthrough_prop(sam_docs_stem: str, sam_docs_name: str, prop_path: list[str
 
 
 def _get_prop(stem: str, name: str) -> Any:
-    docs = _DOCS["properties"][stem][name]
-    return pydantic.Field(
-        title=name,
-        # https://code.visualstudio.com/docs/languages/json#_use-rich-formatting-in-hovers
-        markdownDescription=docs,
-    )
+    pass
 
 
 # By default strict: https://pydantic-docs.helpmanual.io/usage/model_config/#change-behaviour-globally

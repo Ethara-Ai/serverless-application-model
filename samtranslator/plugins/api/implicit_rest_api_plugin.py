@@ -53,41 +53,19 @@ class ImplicitRestApiPlugin(ImplicitApiPlugin[type[SwaggerEditor]]):
         :param SamTemplate template: SAM Template where Serverless::Api resources can be found
         :param str condition: optional; this is the condition that is on the function with the API event
         """
-
-        for event_id, event in api_events.items():
-            event_properties = event.get("Properties", {})
-            if not event_properties:
-                continue
-
-            sam_expect(event_properties, event_id, "", is_sam_event=True).to_be_a_map("Properties should be a map.")
-
-            self._add_tags_to_implicit_api_if_necessary(event_properties, function, template)
-
-            self._add_implicit_api_id_if_necessary(event_properties)  # type: ignore[no-untyped-call]
-
-            api_id, path, method = self._validate_api_event(event_id, event_properties)
-            self._update_resource_attributes_from_api_event(
-                api_id, path, method, condition, deletion_policy, update_replace_policy
-            )
-
-            self._add_api_to_swagger(event_id, event_properties, template)  # type: ignore[no-untyped-call]
-
-            api_events[event_id] = event
-
-        # We could have made changes to the Events structure. Write it back to function
-        function.properties["Events"].update(api_events)
+        pass
 
     def _generate_implicit_api_resource(self) -> dict[str, Any]:
         """
         Uses the implicit API in this file to generate an Implicit API resource
         """
-        return ImplicitApiResource().to_dict()
+        pass
 
     def _get_api_definition_from_editor(self, editor: SwaggerEditor) -> dict[str, Any]:
         """
         Helper function to return the OAS definition from the editor
         """
-        return editor.swagger
+        pass
 
 
 class ImplicitApiResource(SamResource):

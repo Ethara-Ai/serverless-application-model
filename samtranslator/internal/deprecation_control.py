@@ -37,16 +37,6 @@ def deprecated(replacement: str | None = None) -> Callable[[Callable[PT, RT]], C
     """
 
     def decorator(func: Callable[PT, RT]) -> Callable[PT, RT]:
-        @wraps(func)
-        def wrapper(*args, **kwargs) -> RT:  # type: ignore
-            warning_message = _make_message(
-                f"{func.__name__} is deprecated and will be removed in a future release", replacement
-            )
-            # Setting stacklevel=2 to let Python print the line that calls
-            # this wrapper, not the line below.
-            warnings.warn(warning_message, DeprecationWarning, stacklevel=2)
-            return func(*args, **kwargs)
-
-        return wrapper
+        pass
 
     return decorator

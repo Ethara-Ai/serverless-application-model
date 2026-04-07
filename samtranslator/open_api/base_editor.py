@@ -79,7 +79,7 @@ class BaseEditor:
         :param path: path name
         :param condition: condition name
         """
-        self.paths[path] = make_conditional(condition, self.paths[path])
+        pass
 
     def iter_on_path(self) -> Iterator[str]:
         """

@@ -179,7 +179,7 @@ def is_str() -> Validator:
     https://github.com/aws/serverless-application-model/pull/2752
     https://github.com/aws/aws-sam-cli/commit/d18f57c5f39273a04fb582f90e6c5817a4651912
     """
-    return IS_STR
+    pass
 
 
 # Value passed directly to CloudFormation; not used by SAM

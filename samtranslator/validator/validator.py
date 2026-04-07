@@ -220,7 +220,7 @@ def is_object(checker, instance):  # type: ignore[no-untyped-def]
     boolean
         True if an object, False otherwise
     """
-    return isinstance(instance, dict) and not has_intrinsic_attr(instance)  # type: ignore[no-untyped-call]
+    pass
 
 
 def is_intrinsic(checker, instance):  # type: ignore[no-untyped-def]

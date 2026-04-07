@@ -112,17 +112,7 @@ class PolicyTemplatesProcessor:
         :return: True, if it is valid.
         :raises ValueError: If the template dictionary doesn't match up with the schema
         """
-
-        if not schema:
-            schema = PolicyTemplatesProcessor._read_schema()
-
-        try:
-            jsonschema.validate(policy_templates_dict, schema)
-        except ValidationError as ex:
-            # Stringifying the exception will give us useful error message
-            raise ValueError(str(ex)) from ex
-
-        return True
+        pass
 
     @staticmethod
     def get_default_policy_templates_json() -> Any:
@@ -143,8 +133,7 @@ class PolicyTemplatesProcessor:
             will be used
         :return dict: JSON Schema of the policy template
         """
-
-        return PolicyTemplatesProcessor._read_json(PolicyTemplatesProcessor.SCHEMA_LOCATION)
+        pass
 
     @staticmethod
     def _read_json(filepath: Path) -> Any:

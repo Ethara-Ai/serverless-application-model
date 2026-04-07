@@ -32,22 +32,4 @@ class RegionConfiguration:
         :param region: region identifier (e.g., us-east-1)
         :return: True, if the service is supported in the region
         """
-
-        # Attempt to re-use an existing session if present.
-        session = boto3.Session() if not boto3.DEFAULT_SESSION else boto3.DEFAULT_SESSION
-
-        if not region:
-            # get the current region
-            region = session.region_name
-
-            # need to handle when region is None so that it won't break
-            if region is None:
-                if ArnGenerator.BOTO_SESSION_REGION_NAME is not None:
-                    region = ArnGenerator.BOTO_SESSION_REGION_NAME
-                else:
-                    raise NoRegionFound("AWS Region cannot be found")
-
-        # check if the service is available in region
-        partition = ArnGenerator.get_partition_name(region)
-        available_regions = session.get_available_regions(service, partition_name=partition)
-        return region in available_regions
+        pass

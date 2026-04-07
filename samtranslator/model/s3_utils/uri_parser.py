@@ -33,17 +33,7 @@ def to_s3_uri(code_dict):  # type: ignore[no-untyped-def]
     :return: S3 URI of form s3://bucket/key?versionId=version
     :rtype string
     """
-
-    try:
-        uri = "s3://{bucket}/{key}".format(bucket=code_dict["S3Bucket"], key=code_dict["S3Key"])
-        version = code_dict.get("S3ObjectVersion", None)
-    except (TypeError, AttributeError) as ex:
-        raise TypeError("Code location should be a dictionary") from ex
-
-    if version:
-        uri += "?versionId=" + version
-
-    return uri
+    pass
 
 
 def construct_image_code_object(image_uri, logical_id, property_name):  # type: ignore[no-untyped-def]
@@ -56,12 +46,7 @@ def construct_image_code_object(image_uri, logical_id, property_name):  # type: 
     :returns: a Code dict, containing the ImageUri.
     :rtype: dict
     """
-    if not image_uri:
-        raise InvalidResourceException(
-            logical_id, f"'{property_name}' requires that a image hosted at a registry be specified."
-        )
-
-    return {"ImageUri": image_uri}
+    pass
 
 
 def construct_s3_location_object(

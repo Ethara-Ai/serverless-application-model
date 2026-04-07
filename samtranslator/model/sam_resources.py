@@ -928,29 +928,10 @@ class SamFunction(SamResourceMacro):
             )
 
         def _validate_package_type_zip() -> None:
-            if not all([lambda_function.Runtime, lambda_function.Handler]):
-                raise InvalidResourceException(
-                    lambda_function.logical_id,
-                    f"Runtime and Handler needs to be present when PackageType is of type `{ZIP}`",
-                )
-
-            if any([lambda_function.Code.get("ImageUri", False), lambda_function.ImageConfig]):
-                raise InvalidResourceException(
-                    lambda_function.logical_id,
-                    f"ImageUri or ImageConfig cannot be present when PackageType is of type `{ZIP}`",
-                )
+            pass
 
         def _validate_package_type_image() -> None:
-            if any([lambda_function.Handler, lambda_function.Runtime, lambda_function.Layers]):
-                raise InvalidResourceException(
-                    lambda_function.logical_id,
-                    f"Runtime, Handler, Layers cannot be present when PackageType is of type `{IMAGE}`",
-                )
-            if not lambda_function.Code.get("ImageUri"):
-                raise InvalidResourceException(
-                    lambda_function.logical_id,
-                    f"ImageUri needs to be present when PackageType is of type `{IMAGE}`",
-                )
+            pass
 
         _validate_per_package_type = {ZIP: _validate_package_type_zip, IMAGE: _validate_package_type_image}
 
@@ -999,10 +980,7 @@ class SamFunction(SamResourceMacro):
             redundant permissions. This sort places "$" before "/" or any alphanumeric characters.
         :param event: tuple of (logical_id, event_dictionary) that contains event information
         """
-        logical_id, event_dict = event
-        if not isinstance(event_dict, dict):
-            return logical_id
-        return event_dict.get("Properties", {}).get("Path", logical_id)
+        pass
 
     def _generate_event_resources(
         self,
@@ -1072,7 +1050,7 @@ class SamFunction(SamResourceMacro):
         # Inline function for transformation of inline code.
         # It accepts arbitrary argumemnts, because the arguments do not matter for the result.
         def _construct_inline_code(*args: Any, **kwargs: dict[str, Any]) -> dict[str, Any]:
-            return {"ZipFile": self.InlineCode}
+            pass
 
         # dispatch mechanism per artifact on how it needs to be transformed.
         artifact_dispatch: dict[str, Callable[..., dict[str, Any]]] = {

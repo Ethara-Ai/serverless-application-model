@@ -78,8 +78,4 @@ class LogicalIdGenerator:
         :return: string representation of the dictionary
         :rtype string
         """
-        if isinstance(data, str):
-            return data
-
-        # Get the most compact dictionary (separators) and sort the keys recursively to get a stable output
-        return json.dumps(data, separators=(",", ":"), sort_keys=True)
+        pass

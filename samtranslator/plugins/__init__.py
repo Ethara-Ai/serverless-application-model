@@ -34,13 +34,11 @@ class BasePlugin(ABC):
 
     @classmethod
     def _class_name(cls) -> str:
-        return cls.__name__
+        pass
 
     @property
     def name(self) -> str:
-        if self._custom_name:
-            return self._custom_name
-        return self._class_name()
+        pass
 
     # Plugins can choose to skip implementing certain hook methods. In which case we will default to a
     # NoOp implementation

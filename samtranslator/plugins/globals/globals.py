@@ -212,9 +212,7 @@ class Globals:
         :param dict template: SAM template
         :return: Modified SAM template with Globals section
         """
-
-        if cls._KEYWORD in template:
-            del template[cls._KEYWORD]
+        pass
 
     @classmethod
     def fix_openapi_definitions(cls, template: dict[str, Any]) -> None:
@@ -231,26 +229,7 @@ class Globals:
 
         :param dict template: SAM template
         """
-        resources = template.get("Resources", {})
-
-        for _, resource in resources.items():
-            if ("Type" in resource) and (resource["Type"] == cls._API_TYPE):
-                properties = resource["Properties"]
-                if (
-                    (cls._OPENAPIVERSION in properties)
-                    and (cls._MANAGE_SWAGGER in properties)
-                    and SwaggerEditor.safe_compare_regex_with_string(
-                        SwaggerEditor._OPENAPI_VERSION_3_REGEX, properties[cls._OPENAPIVERSION]
-                    )
-                ):
-                    if not isinstance(properties[cls._OPENAPIVERSION], str):
-                        properties[cls._OPENAPIVERSION] = str(properties[cls._OPENAPIVERSION])
-                        resource["Properties"] = properties
-                    if "DefinitionBody" in properties:
-                        definition_body = properties["DefinitionBody"]
-                        definition_body["openapi"] = properties[cls._OPENAPIVERSION]
-                        if definition_body.get("swagger"):
-                            del definition_body["swagger"]
+        pass
 
     def _parse(self, globals_dict):  # type: ignore[no-untyped-def]
         """
@@ -260,43 +239,10 @@ class Globals:
         :return: Processed globals dictionary which can be used to quickly identify properties to merge
         :raises: InvalidResourceException if the input contains properties that we don't support
         """
-
-        _globals = {}
-        if not isinstance(globals_dict, dict):
-            raise InvalidGlobalsSectionException(self._KEYWORD, "It must be a non-empty dictionary")
-
-        for section_name, properties in globals_dict.items():
-            resource_type = self._make_resource_type(section_name)  # type: ignore[no-untyped-call]
-
-            if resource_type not in self.supported_properties:
-                raise InvalidGlobalsSectionException(
-                    self._KEYWORD,
-                    f"'{section_name}' is not supported. "
-                    f"Must be one of the following values - {self.supported_resource_section_names}",
-                )
-
-            if not isinstance(properties, dict):
-                raise InvalidGlobalsSectionException(self._KEYWORD, "Value of ${section} must be a dictionary")
-
-            supported = self.supported_properties[resource_type]
-            supported_displayed = [
-                prop for prop in supported if prop not in self.unreleased_properties.get(resource_type, [])
-            ]
-            for key, _ in properties.items():
-                if key not in supported:
-                    raise InvalidGlobalsSectionException(
-                        self._KEYWORD,
-                        f"'{key}' is not a supported property of '{section_name}'. "
-                        f"Must be one of the following values - {supported_displayed}",
-                    )
-
-            # Store all Global properties in a map with key being the AWS::Serverless::* resource type
-            _globals[resource_type] = GlobalProperties(properties)
-
-        return _globals
+        pass
 
     def _make_resource_type(self, key):  # type: ignore[no-untyped-def]
-        return self._RESOURCE_PREFIX + key
+        pass
 
 
 class GlobalProperties:
@@ -547,4 +493,4 @@ class InvalidGlobalsSectionException(ExceptionWithMessage):
 
     @property
     def message(self) -> str:
-        return f"'{self._logical_id}' section is invalid. {self._message}"
+        pass

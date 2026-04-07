@@ -114,7 +114,7 @@ class FeatureToggleDefaultConfigProvider(FeatureToggleConfigProvider):
 
     @property
     def config(self) -> dict[str, Any]:
-        return {}
+        pass
 
 
 class FeatureToggleLocalConfigProvider(FeatureToggleConfigProvider):
@@ -127,7 +127,7 @@ class FeatureToggleLocalConfigProvider(FeatureToggleConfigProvider):
 
     @property
     def config(self) -> dict[str, Any]:
-        return self.feature_toggle_config
+        pass
 
 
 class FeatureToggleAppConfigConfigProvider(FeatureToggleConfigProvider):
@@ -163,4 +163,4 @@ class FeatureToggleAppConfigConfigProvider(FeatureToggleConfigProvider):
 
     @property
     def config(self) -> dict[str, Any]:
-        return self.feature_toggle_config
+        pass

@@ -23,25 +23,4 @@ class GlobalsPlugin(BasePlugin):
 
         :param dict template_dict: SAM template as a dictionary
         """
-        try:
-            global_section = Globals(template_dict)
-        except InvalidGlobalsSectionException as ex:
-            raise InvalidDocumentException([ex]) from ex
-
-        # For each resource in template, try and merge with Globals if necessary
-        template = SamTemplate(template_dict)
-        for logicalId, resource in template.iterate():
-            try:
-                resource.properties = global_section.merge(
-                    str(resource.type), resource.properties, logicalId, resource.ignore_globals
-                )
-            except InvalidResourceAttributeTypeException as ex:
-                raise InvalidDocumentException([ex]) from ex
-            template.set(logicalId, resource)
-
-        # Remove the Globals section from template if necessary
-        Globals.del_section(template_dict)
-
-        # If there was a global openApiVersion flag, check and convert swagger
-        # to the right version
-        Globals.fix_openapi_definitions(template_dict)
+        pass

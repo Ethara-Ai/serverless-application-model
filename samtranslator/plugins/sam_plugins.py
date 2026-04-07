@@ -73,14 +73,7 @@ class SamPlugins:
             registered
         :return: None
         """
-
-        if not plugin or not isinstance(plugin, BasePlugin):
-            raise ValueError("Plugin must be implemented as a subclass of BasePlugin class")
-
-        if self.is_registered(plugin.name):
-            raise ValueError(f"Plugin with name {plugin.name} is already registered")
-
-        self._plugins.append(plugin)
+        pass
 
     def is_registered(self, plugin_name: str) -> bool:
         """
@@ -89,8 +82,7 @@ class SamPlugins:
         :param plugin_name: Name of the plugin
         :return: True if plugin with given name is already registered. False, otherwise
         """
-
-        return plugin_name in [p.name for p in self._plugins]
+        pass
 
     def _get(self, plugin_name: str) -> Union[Any, None]:
         """
@@ -99,12 +91,7 @@ class SamPlugins:
         :param plugin_name: Name of the plugin to retrieve
         :return samtranslator.plugins.BasePlugin: Returns the plugin object if found. None, otherwise
         """
-
-        for p in self._plugins:
-            if p.name == plugin_name:
-                return p
-
-        return None
+        pass
 
     def act(self, event: LifeCycleEvents, *args: Any, **kwargs: Any) -> None:
         """

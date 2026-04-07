@@ -1335,7 +1335,7 @@ class HttpApi(PushEventSource):
         Despite Method is optional, it will be set before entering here
         in ImplicitHttpApiPlugin._process_api_events().
         """
-        return cast(str, self.Method)
+        pass
 
     @property
     def _path(self) -> str:
@@ -1343,7 +1343,7 @@ class HttpApi(PushEventSource):
         Despite Method is optional, it will be set before entering here
         in ImplicitHttpApiPlugin._process_api_events().
         """
-        return cast(str, self.Path)
+        pass
 
     def resources_to_link(self, resources):  # type: ignore[no-untyped-def]
         """

@@ -1203,21 +1203,7 @@ class SwaggerEditor(BaseEditor):
 
         :return dict: Dictionary containing the Swagger document
         """
-
-        # Make sure any changes to the paths are reflected back in output
-        # iterate keys to make sure if "paths" is of Py27UniStr type, it won't be overriden as str
-        for key in self._doc:
-            if key == "paths":
-                self._doc[key] = self.paths
-
-        if self.security_definitions:
-            self._doc[self._SECURITY_DEFINITIONS] = self.security_definitions
-        if self.gateway_responses:
-            self._doc[self._X_APIGW_GATEWAY_RESPONSES] = self.gateway_responses
-        if self.definitions:
-            self._doc["definitions"] = self.definitions
-
-        return _deepcopy(self._doc)
+        pass
 
     @staticmethod
     def is_valid(data: Any) -> bool:

@@ -86,23 +86,7 @@ class Action(ABC):
             then both `logical_id` and property will be None
 
         """
-        no_result = (None, None)
-
-        if not isinstance(ref_value, str):
-            return no_result
-
-        splits = ref_value.split(cls._resource_ref_separator, 1)
-
-        # Either there is no 'dot' (or) one of the values is empty string (Ex: when you split "LogicalId.")
-        try:
-            logical_id, property_name = splits
-        except ValueError:
-            return no_result
-
-        if not logical_id or not property_name:
-            return no_result
-
-        return logical_id, property_name
+        pass
 
 
 class RefAction(Action):
@@ -145,22 +129,7 @@ class RefAction(Action):
             an `SupportedResourceReferences` object that contain value of the property.
         :return dict: Dictionary with resource references resolved.
         """
-
-        if input_dict is None or not self.can_handle(input_dict):
-            return input_dict
-
-        ref_value = input_dict[self.intrinsic_name]
-        logical_id, property_name = self._parse_resource_reference(ref_value)
-
-        # ref_value could not be parsed
-        if not logical_id:
-            return input_dict
-
-        resolved_value = supported_resource_refs.get(logical_id, property_name)
-        if not resolved_value:
-            return input_dict
-
-        return {self.intrinsic_name: resolved_value}
+        pass
 
     def resolve_resource_id_refs(
         self, input_dict: Any | None, supported_resource_id_refs: dict[str, Any]
@@ -175,21 +144,7 @@ class RefAction(Action):
         :param dict supported_resource_id_refs: Dictionary that maps old logical ids to new ones.
         :return dict: Dictionary with resource references resolved.
         """
-
-        if input_dict is None or not self.can_handle(input_dict):
-            return input_dict
-
-        ref_value = input_dict[self.intrinsic_name]
-        if not isinstance(ref_value, str) or self._resource_ref_separator in ref_value:
-            return input_dict
-
-        logical_id = ref_value
-
-        resolved_value = supported_resource_id_refs.get(logical_id)
-        if not resolved_value:
-            return input_dict
-
-        return {self.intrinsic_name: resolved_value}
+        pass
 
 
 class SubAction(Action):
@@ -215,9 +170,7 @@ class SubAction(Action):
             :param prop_name: => logicalId.property
             :return: Either the value it resolves to. If not the original reference
             """
-            # Use the wrapper function to get parameter value
-            # It returns the original input unchanged if the parameter is a CloudFormation internal placeholder
-            return _get_parameter_value(parameters, prop_name, full_ref)
+            pass
 
         return self._handle_sub_action(input_dict, do_replacement)
 
@@ -246,39 +199,7 @@ class SubAction(Action):
             an `SupportedResourceReferences` object that contain value of the property.
         :return: Resolved dictionary
         """
-
-        def do_replacement(full_ref: str, ref_value: str) -> str:
-            """
-            Perform the appropriate replacement to handle ${LogicalId.Property} type references inside a Sub.
-            This method is called to get the replacement string for each reference within Sub's value
-
-            :param full_ref: Entire reference string such as "${LogicalId.Property}"
-            :param ref_value: Just the value of the reference such as "LogicalId.Property"
-            :return: Resolved reference of the structure "${SomeOtherLogicalId}". Result should always include the
-                ${} structure since we are not resolving to final value, but just converting one reference to another
-            """
-
-            # Split the value by separator, expecting to separate out LogicalId.Property
-            splits = ref_value.split(self._resource_ref_separator)
-
-            # If we don't find at least two parts, there is nothing to resolve
-            try:
-                logical_id, property_name = splits[:2]
-            except ValueError:
-                return full_ref
-
-            resolved_value = supported_resource_refs.get(logical_id, property_name)
-            if not resolved_value:
-                # This ID/property combination is not in the supported references
-                return full_ref
-
-            # We found a LogicalId.Property combination that can be resolved. Construct the output by replacing
-            # the part of the reference string and not constructing a new ref. This allows us to support GetAtt-like
-            # syntax and retain other attributes. Ex: ${LogicalId.Property.Arn} => ${SomeOtherLogicalId.Arn}
-            replacement = self._resource_ref_separator.join([logical_id, property_name])
-            return full_ref.replace(replacement, resolved_value)
-
-        return self._handle_sub_action(input_dict, do_replacement)
+        pass
 
     def resolve_resource_id_refs(
         self, input_dict: Any | None, supported_resource_id_refs: dict[str, Any]
@@ -306,37 +227,7 @@ class SubAction(Action):
         :param dict supported_resource_id_refs: Dictionary that maps old logical ids to new ones.
         :return: Resolved dictionary
         """
-
-        def do_replacement(full_ref: str, ref_value: str) -> str:
-            """
-            Perform the appropriate replacement to handle ${LogicalId} type references inside a Sub.
-            This method is called to get the replacement string for each reference within Sub's value
-
-            :param full_ref: Entire reference string such as "${LogicalId.Property}"
-            :param ref_value: Just the value of the reference such as "LogicalId.Property"
-            :return: Resolved reference of the structure "${SomeOtherLogicalId}". Result should always include the
-                ${} structure since we are not resolving to final value, but just converting one reference to another
-            """
-
-            # Split the value by separator, expecting to separate out LogicalId
-            splits = ref_value.split(self._resource_ref_separator)
-
-            # If we don't find at least one part, there is nothing to resolve
-            if len(splits) < 1:
-                return full_ref
-
-            logical_id = splits[0]
-            resolved_value = supported_resource_id_refs.get(logical_id)
-            if not resolved_value:
-                # This ID/property combination is not in the supported references
-                return full_ref
-
-            # We found a LogicalId.Property combination that can be resolved. Construct the output by replacing
-            # the part of the reference string and not constructing a new ref. This allows us to support GetAtt-like
-            # syntax and retain other attributes. Ex: ${LogicalId.Property.Arn} => ${SomeOtherLogicalId.Arn}
-            return full_ref.replace(logical_id, resolved_value)
-
-        return self._handle_sub_action(input_dict, do_replacement)
+        pass
 
     def _handle_sub_action(self, input_dict: dict[Any, Any] | None, handler: Callable[[str, str], str]) -> Any | None:
         """
@@ -457,34 +348,7 @@ class GetAttAction(Action):
             an `SupportedResourceReferences` object that contain value of the property.
         :return: Resolved dictionary
         """
-
-        if input_dict is None or not self.can_handle(input_dict):
-            return input_dict
-
-        key = self.intrinsic_name
-        value = input_dict[key]
-
-        if not self._check_input_value(value):
-            return input_dict
-
-        # Value of GetAtt is an array. It can contain any number of elements, with first being the LogicalId of
-        # resource and rest being the attributes. In a SAM template, a reference to a resource can be used in the
-        # first parameter. However tools like AWS CLI might break them down as well. So let's just concatenate
-        # all elements, and break them into separate parts in a more standard way.
-        #
-        # Example:
-        #   { Fn::GetAtt: ["LogicalId.Property", "Arn"] } is equivalent to { Fn::GetAtt: ["LogicalId", "Property.Arn"] }
-        #   Former is the correct notation. However tools like AWS CLI can construct the later style.
-        #   Let's normalize the value into "LogicalId.Property.Arn" to handle both scenarios
-
-        value_str = self._resource_ref_separator.join(value)
-        splits = value_str.split(self._resource_ref_separator)
-        logical_id = splits[0]
-        property_name = splits[1]
-        remaining = splits[2:]  # if any
-
-        resolved_value = supported_resource_refs.get(logical_id, property_name)
-        return self._get_resolved_dictionary(input_dict, key, resolved_value, remaining)
+        pass
 
     def resolve_resource_id_refs(
         self, input_dict: Any | None, supported_resource_id_refs: dict[str, Any]
@@ -511,33 +375,12 @@ class GetAttAction(Action):
         :param dict supported_resource_id_refs: Dictionary that maps old logical ids to new ones.
         :return: Resolved dictionary
         """
-
-        if input_dict is None or not self.can_handle(input_dict):
-            return input_dict
-
-        key = self.intrinsic_name
-        value = input_dict[key]
-
-        if not self._check_input_value(value):
-            return input_dict
-
-        value_str = self._resource_ref_separator.join(value)
-        splits = value_str.split(self._resource_ref_separator)
-        logical_id = splits[0]
-        remaining = splits[1:]  # if any
-
-        resolved_value = supported_resource_id_refs.get(logical_id)
-        return self._get_resolved_dictionary(input_dict, key, resolved_value, remaining)
+        pass
 
     def _check_input_value(self, value: Any) -> bool:
         # Value must be an array with enough elements. If not, this is invalid GetAtt syntax. We just pass along
         # the input to CFN for it to do the "official" validation.
-        if not isinstance(value, list) or len(value) < self._MIN_NUM_ARGUMENTS:
-            return False
-
-        # If items in value array is not a string, then following join line will fail. So if any element is not a string
-        # we just pass along the input to CFN for doing the validation
-        return all(isinstance(item, str) for item in value)
+        pass
 
     def _get_resolved_dictionary(
         self, input_dict: dict[str, Any] | None, key: str, resolved_value: str | None, remaining: list[str]
@@ -550,12 +393,7 @@ class GetAttAction(Action):
         :param resolved_value: Resolved or updated value for this action.
         :param remaining: Remaining sections for the GetAtt action.
         """
-        if input_dict and resolved_value:
-            # We resolved to a new resource logicalId. Use this as the first element and keep remaining elements intact
-            # This is the new value of Fn::GetAtt
-            input_dict[key] = [resolved_value, *remaining]
-
-        return input_dict
+        pass
 
 
 class FindInMapAction(Action):

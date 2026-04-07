@@ -157,11 +157,7 @@ def extend_with_cfn_schema(sam_schema: dict[str, Any], cfn_schema: dict[str, Any
 
     # Inject CloudFormation documentation to SAM pass-through properties
     def replace_passthrough(d: dict[str, Any]) -> dict[str, Any]:
-        passthrough = d["__samPassThrough"]
-        schema = deepcopy(_deep_get(cfn_schema, passthrough["schemaPath"]))
-        schema["markdownDescription"] = passthrough["markdownDescriptionOverride"]
-        schema["title"] = d["title"]  # Still want the original title, CFN property name could be different
-        return schema
+        pass
 
     _replace_in_dict(
         sam_schema,

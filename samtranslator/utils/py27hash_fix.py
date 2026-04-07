@@ -422,8 +422,7 @@ class Py27Dict(dict):  # type: ignore[type-arg]
         """
         Clears the dict along with its backing Python2.7 keylist.
         """
-        super().clear()
-        self.keylist = Py27Keys()
+        pass
 
     def copy(self) -> "Py27Dict":
         """
@@ -474,14 +473,7 @@ class Py27Dict(dict):  # type: ignore[type-arg]
         tuple
             (key, value) pair of an element if found or None if dict is empty
         """
-        if self:
-            key = self.keylist.pop()  # type: ignore[no-untyped-call]
-            value = self[key] if key else None
-
-            del self[key]  # type: ignore[no-untyped-call]
-            return key, value
-
-        return None
+        pass
 
     def __iter__(self) -> Iterator[str]:
         """

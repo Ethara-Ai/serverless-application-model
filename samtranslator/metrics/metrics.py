@@ -45,25 +45,13 @@ class CWMetricsPublisher(MetricsPublisher):
         :param namespace: namespace applied to all metrics published.
         :param metrics: list of metrics to be published
         """
-        batch = []
-        for metric in metrics:
-            batch.append(metric)
-            # Cloudwatch recommends not to send more than 20 metrics at a time
-            if len(batch) == self.BATCH_SIZE:
-                self._flush_metrics(namespace, batch)  # type: ignore[no-untyped-call]
-                batch = []
-        self._flush_metrics(namespace, batch)  # type: ignore[no-untyped-call]
+        pass
 
     def _flush_metrics(self, namespace, metrics):  # type: ignore[no-untyped-def]
         """
         Internal method to publish all provided metrics to cloudwatch, please make sure that array size of metrics is <= 20.
         """
-        metric_data = [m.get_metric_data() for m in metrics]
-        try:
-            if metric_data:
-                self.cloudwatch_client.put_metric_data(Namespace=namespace, MetricData=metric_data)
-        except Exception:
-            LOG.exception(f"Failed to report {len(metric_data)} metrics")
+        pass
 
 
 class DummyMetricsPublisher(MetricsPublisher):
@@ -72,7 +60,7 @@ class DummyMetricsPublisher(MetricsPublisher):
 
     def publish(self, namespace: str, metrics: list["MetricDatum"]) -> None:
         """Do not publish any metric, this is a dummy publisher used for offline use."""
-        LOG.debug(f"Dummy publisher ignoring {len(metrics)} metrices")
+        pass
 
 
 class Unit:
@@ -118,13 +106,7 @@ class MetricDatum:
         self.timestamp = timestamp if timestamp else datetime.now(timezone.utc)
 
     def get_metric_data(self) -> dict[str, Any]:
-        return {
-            "MetricName": self.name,
-            "Value": self.value,
-            "Unit": self.unit,
-            "Dimensions": self.dimensions,
-            "Timestamp": self.timestamp,
-        }
+        pass
 
 
 class MetricDimension(TypedDict):
@@ -189,7 +171,7 @@ class Metrics:
         :param dimensions: array of dimensions applied to the metric
         :param timestamp: timestamp of metric (datetime.datetime object)
         """
-        self._record_metric(name, value, Unit.Count, dimensions, timestamp)
+        pass
 
     def record_latency(
         self,
@@ -211,13 +193,7 @@ class Metrics:
 
     def publish(self) -> None:
         """Calls publish method from the configured metrics publisher to publish metrics"""
-        # flatten the key->list dict into a flat list; we don't care about the key as it's
-        # the metric name which is also in the MetricDatum object
-        all_metrics = []
-        for m in self.metrics_cache.values():
-            all_metrics.extend(m)
-        self.metrics_publisher.publish(self.namespace, all_metrics)
-        self.metrics_cache = {}
+        pass
 
     def get_metric(self, name: str) -> list[MetricDatum]:
         """
@@ -226,4 +202,4 @@ class Metrics:
         :param name: metric name
         :returns: list (possibly empty) of MetricDatum objects
         """
-        return self.metrics_cache.get(name, [])
+        pass

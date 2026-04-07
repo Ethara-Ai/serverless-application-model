@@ -7,8 +7,8 @@ class GeneratedLogicalId:
 
     @staticmethod
     def implicit_api() -> str:
-        return "ServerlessRestApi"
+        pass
 
     @staticmethod
     def implicit_http_api() -> str:
-        return "ServerlessHttpApi"
+        pass

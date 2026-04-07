@@ -210,7 +210,7 @@ class ApiGatewayResponse:
         return prefixed_parameters
 
     def _status_code_string(self, status_code):  # type: ignore[no-untyped-def]
-        return None if status_code is None else str(status_code)
+        pass
 
 
 class ApiGatewayDomainName(Resource):
@@ -379,30 +379,7 @@ class ApiGatewayAuthorizer:
             ).to_be_a_bool()
 
     def _is_missing_identity_source(self, identity: dict[str, Any]) -> bool:
-        if not identity:
-            return True
-
-        sam_expect(identity, self.api_logical_id, f"Authorizer.{self.name}.Identity").to_be_a_map()
-
-        headers = identity.get("Headers")
-        query_strings = identity.get("QueryStrings")
-        stage_variables = identity.get("StageVariables")
-        context = identity.get("Context")
-        ttl = identity.get("ReauthorizeEvery")
-
-        required_properties_missing = not headers and not query_strings and not stage_variables and not context
-
-        if ttl is None:
-            return required_properties_missing
-        try:
-            ttl_int = int(ttl)
-        # this will catch if and not convertable to an int
-        except (TypeError, ValueError):
-            # previous behavior before trying to read ttl
-            return required_properties_missing
-
-        # If we can resolve ttl, attempt to see if things are valid
-        return ttl_int > 0 and required_properties_missing
+        pass
 
     def generate_swagger(self) -> Py27Dict:
         authorizer_type = self._get_type()
@@ -461,10 +438,7 @@ class ApiGatewayAuthorizer:
 
     @staticmethod
     def _build_identity_source_item(item_prefix: str, prop_value: str) -> str:
-        item = item_prefix + prop_value
-        if isinstance(prop_value, Py27UniStr):
-            return Py27UniStr(item)
-        return item
+        pass
 
     def _build_identity_source_item_array(self, prop_key: str, item_prefix: str) -> list[str]:
         arr: list[str] = []

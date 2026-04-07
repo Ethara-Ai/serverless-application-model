@@ -30,7 +30,7 @@ class MetricsMethodWrapperSingleton:
 
     @staticmethod
     def set_instance(metrics: Metrics) -> None:
-        MetricsMethodWrapperSingleton._METRICS_INSTANCE = metrics
+        pass
 
     @staticmethod
     def get_instance() -> Metrics:
@@ -111,15 +111,7 @@ def cw_timer(
     def cw_timer_decorator(func: Callable[_PT, _RT]) -> Callable[_PT, _RT]:
         @functools.wraps(func)
         def wrapper_cw_timer(*args, **kwargs) -> _RT:  # type: ignore[no-untyped-def]
-            start_time = datetime.now()
-
-            exec_result = func(*args, **kwargs)
-
-            execution_time = datetime.now() - start_time
-            execution_time_ms = execution_time.total_seconds() * 1000
-            _send_cw_metric(prefix, name, execution_time_ms, func, args)  # type: ignore[no-untyped-call]
-
-            return exec_result
+            pass
 
         return wrapper_cw_timer
 

@@ -79,16 +79,7 @@ class IAMRolePolicies:
 
     @classmethod
     def cloud_watch_log_assume_role_policy(cls) -> dict[str, Any]:
-        return {
-            "Version": "2012-10-17",
-            "Statement": [
-                {
-                    "Action": ["sts:AssumeRole"],
-                    "Effect": "Allow",
-                    "Principal": {"Service": ["apigateway.amazonaws.com"]},
-                }
-            ],
-        }
+        pass
 
     @classmethod
     def scheduler_assume_role_policy(cls) -> dict[str, Any]:

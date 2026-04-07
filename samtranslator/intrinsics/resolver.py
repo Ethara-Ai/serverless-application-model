@@ -198,11 +198,7 @@ class IntrinsicsResolver:
         :param parameters: Parameter values used to for ref substitution
         :return:
         """
-        if not self._is_intrinsic_dict(_input):
-            return _input
-
-        function_type = next(iter(_input.keys()))
-        return self.supported_intrinsics[function_type].resolve_parameter_refs(_input, parameters)
+        pass
 
     def _try_resolve_sam_resource_refs(
         self, _input: dict[str, Any], supported_resource_refs: SupportedResourceReferences
@@ -217,11 +213,7 @@ class IntrinsicsResolver:
             resource references and the values they resolve to.
         :return: Modified input dictionary with references resolved
         """
-        if not self._is_intrinsic_dict(_input):
-            return _input
-
-        function_type = next(iter(_input.keys()))
-        return self.supported_intrinsics[function_type].resolve_resource_refs(_input, supported_resource_refs)
+        pass
 
     def _try_resolve_sam_resource_id_refs(
         self, _input: dict[str, Any], supported_resource_id_refs: dict[str, str]
@@ -235,11 +227,7 @@ class IntrinsicsResolver:
         :param dict supported_resource_id_refs: Dictionary that maps old logical ids to new ones.
         :return: Modified input dictionary with id references resolved
         """
-        if not self._is_intrinsic_dict(_input):
-            return _input
-
-        function_type = next(iter(_input.keys()))
-        return self.supported_intrinsics[function_type].resolve_resource_id_refs(_input, supported_resource_id_refs)
+        pass
 
     def _is_intrinsic_dict(self, _input: dict[str, Any]) -> bool:
         """
@@ -248,5 +236,4 @@ class IntrinsicsResolver:
         :param _input: Object to be checked
         :return: True, if the _input contains a supported intrinsic function.  False otherwise
         """
-        # All intrinsic functions are dictionaries with just one key
-        return isinstance(_input, dict) and len(_input) == 1 and next(iter(_input.keys())) in self.supported_intrinsics
+        pass

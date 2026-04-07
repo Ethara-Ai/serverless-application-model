@@ -41,22 +41,16 @@ class InvalidDocumentException(ExceptionWithMessage):
 
     @property
     def message(self) -> str:
-        return f"Invalid Serverless Application Specification document. Number of errors found: {len(self.causes)}."
+        pass
 
     @property
     def metadata(self) -> dict[str, list[Any]]:
         # Merge metadata in each exception to one single metadata dictionary
-        metadata_dict = defaultdict(list)
-        for cause in self.causes:
-            if not cause.metadata:
-                continue
-            for k, v in cause.metadata.items():
-                metadata_dict[k].append(v)
-        return metadata_dict
+        pass
 
     @property
     def causes(self) -> Sequence[ExceptionWithMessage]:
-        return self._causes
+        pass
 
 
 class DuplicateLogicalIdException(ExceptionWithMessage):
@@ -72,11 +66,7 @@ class DuplicateLogicalIdException(ExceptionWithMessage):
 
     @property
     def message(self) -> str:
-        return (
-            f"Transforming resource with id [{self._logical_id}] attempts to create a new"
-            f' resource with id [{self._duplicate_id}] and type "{self._type}". A resource with that id already'
-            " exists within this template. Please use a different id for that resource."
-        )
+        pass
 
 
 class InvalidTemplateException(ExceptionWithMessage):
@@ -91,7 +81,7 @@ class InvalidTemplateException(ExceptionWithMessage):
 
     @property
     def message(self) -> str:
-        return f"Structure of the SAM template is invalid. {self._message}"
+        pass
 
 
 class InvalidResourceException(ExceptionWithMessage):
@@ -111,11 +101,11 @@ class InvalidResourceException(ExceptionWithMessage):
 
     @property
     def message(self) -> str:
-        return f"Resource with id [{self._logical_id}] is invalid. {self._message}"
+        pass
 
     @property
     def metadata(self) -> dict[str, Any] | None:
-        return self._metadata
+        pass
 
 
 class InvalidResourcePropertyTypeException(InvalidResourceException):
@@ -139,10 +129,7 @@ class InvalidResourcePropertyTypeException(InvalidResourceException):
 
     @staticmethod
     def _default_message(key_path: str, expected_type: ExpectedType | None) -> str:
-        if expected_type:
-            type_description, _ = expected_type.value
-            return f"Property '{key_path}' should be a {type_description}."
-        return f"Type of property '{key_path}' is invalid."
+        pass
 
 
 class InvalidResourceAttributeTypeException(InvalidResourceException):
@@ -158,10 +145,7 @@ class InvalidResourceAttributeTypeException(InvalidResourceException):
 
     @staticmethod
     def _default_message(logical_id: str, key_path: str, expected_type: ExpectedType | None) -> str:
-        if expected_type:
-            type_description, _ = expected_type.value
-            return f"Attribute '{key_path}' should be a {type_description}."
-        return f"Type of attribute '{key_path}' is invalid."
+        pass
 
 
 class InvalidEventException(ExceptionWithMessage):
@@ -180,7 +164,7 @@ class InvalidEventException(ExceptionWithMessage):
 
     @property
     def message(self) -> str:
-        return f"Event with id [{self._event_id}] is invalid. {self._message}"
+        pass
 
 
 def prepend(exception, message, end=": "):  # type: ignore[no-untyped-def]

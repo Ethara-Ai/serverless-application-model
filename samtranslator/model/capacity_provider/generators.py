@@ -122,10 +122,7 @@ class CapacityProviderGenerator:
         """
         Ensure that the PermissionsConfig dictionary exists on the capacity provider
         """
-        # Using getattr to avoid mypy unreachable statement error
-        # This is because mypy thinks PermissionsConfig can never be None based on type definitions
-        if getattr(capacity_provider, "PermissionsConfig", None) is None:
-            capacity_provider.PermissionsConfig = {}
+        pass
 
     def _transform_instance_requirements(self) -> dict[str, Any]:
         """

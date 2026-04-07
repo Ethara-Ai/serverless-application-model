@@ -70,12 +70,7 @@ class PropertyType:
 
     def _resolve_expected_type(self, validate: Validator) -> Any | None:
         """Resolve expected_type from validator attribute or default mapping."""
-        # Check if validator has enum_values attribute (from IS_STR_ENUM)
-        if hasattr(validate, "enum_values"):
-            return StringEnumExpectedType(validate.enum_values)
-
-        # Default mapping for standard validators
-        return self.EXPECTED_TYPE_BY_VALIDATOR.get(validate)
+        pass
 
 
 class Property(PropertyType):
@@ -196,7 +191,7 @@ class Resource(ABC):
         A getter method for the supported resource attributes
         returns: a tuple that contains the name of all supported resource attributes
         """
-        return tuple(cls._supported_resource_attributes)
+        pass
 
     @classmethod
     def get_pass_through_attributes(cls) -> tuple[str, ...]:
@@ -266,13 +261,7 @@ class Resource(ABC):
         :rtype: bool
         :raises TypeError: if the logical id is invalid
         """
-        pattern = re.compile(r"^[A-Za-z0-9]+$")
-        if isinstance(logical_id, str) and pattern.match(logical_id):
-            return logical_id
-        # TODO: Doing validation in this class is kind of off,
-        # we need to surface this validation to where the template is loaded
-        # or the logical IDs are generated.
-        raise InvalidResourceException(str(logical_id), "Logical ids must be alphanumeric.")
+        pass
 
     @classmethod
     def _validate_resource_dict(cls, logical_id: str, resource_dict: dict[str, Any]) -> None:

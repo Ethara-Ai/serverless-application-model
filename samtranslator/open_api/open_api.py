@@ -509,7 +509,7 @@ class OpenApiEditor(BaseEditor):
         self.info["title"] = title
 
     def has_api_gateway_cors(self) -> bool:
-        return bool(self._doc.get(self._X_APIGW_CORS))
+        pass
 
     @property
     def openapi(self) -> dict[str, Any]:
@@ -518,25 +518,7 @@ class OpenApiEditor(BaseEditor):
 
         :return dict: Dictionary containing the OpenApi specification
         """
-
-        # Make sure any changes to the paths are reflected back in output
-        self._doc["paths"] = self.paths
-
-        if self.tags:
-            self._doc["tags"] = self.tags
-
-        if self.security_schemes:
-            self._doc.setdefault("components", Py27Dict())
-            if not self._doc["components"]:
-                # explicitly set to dict to account for scenario where
-                # 'components' is explicitly set to None
-                self._doc["components"] = Py27Dict()
-            self._doc["components"]["securitySchemes"] = self.security_schemes
-
-        if self.info:
-            self._doc["info"] = self.info
-
-        return _deepcopy(self._doc)
+        pass
 
     @staticmethod
     def is_valid(data: Any) -> bool:

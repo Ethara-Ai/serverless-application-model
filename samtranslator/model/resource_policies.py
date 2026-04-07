@@ -75,27 +75,7 @@ class ResourcePolicies:
             It is assumed that this is already a dictionary and contains policies key.
         :return list of PolicyEntry: list of policies, where each item is an instance of named tuple `PolicyEntry`
         """
-
-        policies = None
-
-        if self._contains_policies(resource_properties):  # type: ignore[no-untyped-call]
-            policies = resource_properties[self.POLICIES_PROPERTY_NAME]
-
-        if not policies:
-            # Policies is None or empty
-            return []
-
-        if not isinstance(policies, list):
-            # Just a single entry. Make it into a list of convenience
-            policies = [policies]
-
-        result = []
-        for policy in policies:
-            policy_type = self._get_type(policy)  # type: ignore[no-untyped-call]
-            entry = PolicyEntry(data=policy, type=policy_type)
-            result.append(entry)
-
-        return result
+        pass
 
     def _contains_policies(self, resource_properties):  # type: ignore[no-untyped-def]
         """
@@ -104,11 +84,7 @@ class ResourcePolicies:
         :param dict resource_properties: Properties of the resource
         :return: True if we can process this resource. False, otherwise
         """
-        return (
-            resource_properties is not None
-            and isinstance(resource_properties, dict)
-            and self.POLICIES_PROPERTY_NAME in resource_properties
-        )
+        pass
 
     def _get_type(self, policy):  # type: ignore[no-untyped-def]
         """
